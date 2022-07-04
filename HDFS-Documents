@@ -1,0 +1,12 @@
+Decommission data nodes
+-------------------
+
+#hdfs dfsadmin -report
+
+[hdfs@bldmpmas03 conf]$ more dfs.exclude
+bldmpdat28.net
+
+[hdfs@bldmpmas03 conf]$ hdfs dfsadmin -refreshNodes
+Refresh nodes successful for bldmpmas02.net/172.16.5.12:8020
+Refresh nodes successful for bldmpmas03.net/172.16.5.13:8020
+[hdfs@bldmpmas03 conf]$
