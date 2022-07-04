@@ -1,0 +1,51 @@
+1. How can I remove the node from active datanode list?
+=========================================================================================================================================================
+You can refer the below documentation to decommission a data node from your cluster. 
+===== 
+https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.1.0/administration/content/decommission-datanodes.html
+ 
+Before decommissioning make sure that hdfs is healthy, that means you don't have any missing/under replicated blocks.
+
+If your datanode is in 'decommissioned' state that means all the blocks from that node was copied over the other DN's. 
+
+Please check below points- 
+
+1-Please run ' hdfs dfsadmin -report ' to check the status of the datanode, it should be in 'decommissioned' State. 
+2-OR goto NN UI, then click on datanodes, there you can easily check the state of the datanode,
+  if it is in decommissioned state then you can can safely remove that node. 
+3- Also please make sure that you don't have any 'Under replicated blocks'  
+and 'Number of Blocks Pending Deletion' , 
+hence the blocks from decommissioned node get replicated to the other DN's. 
+
+Note: If the datanode has thousands of blocks, decommissioning can take several hours. 
+
+
+2. How can I confirm there is no dependency for any YARN jobs on this data node ?
+=========================================================================================================================================================
+When you initiate the decommissioning process, 
+jobs running on this Datanode may fail as it won't be able to get any block/data. 
+So, it is recommended to perform any such activity in non-working hours, 
+else you would need to drill down every job for checking the datanode it is running on.
+
+Once the data node is decommissioned, all the blocks on this datanode are replicated to other DNs,
+ so YARN will not launch any job on this DN.
+
+3.  Do we need to copy data to other data nodes ?
+==========================================================================================================================================================
+No, You don't need to copy any data from the decommissioning datanode as this would be taken care of by HDFS (The decommissioning process of the Datanode ensures that data is transferred to other nodes so that the existing replication factor is not disturbed).
+
+Just make sure that 'Number of Blocks Pending Deletion' are 0 before removing the datanode.
+
+
+For recommissioning the datanode, follow the below:
+===========================================================================================================================================================
+From Ambari, click 'hosts' and then on the datanode menu, select 'Recommission' 
+
+
+========================================================================================================================================================
+Also, you can follow below steps to perform this activity which is recommended-
+1- Decommission the data node
+2- Stop all the components on that host.
+3- Perform the OS activity 
+4- Recommission the data node and host.
+5- Start all services.
