@@ -1,0 +1,5 @@
+YARN ATS log generate :
+-------------------------------------
+[yarn-ats@bldmpmas01 ~]$ klist -kt /etc/security/keytabs/yarn-ats.hbase-master.service.keytab
+[yarn-ats@bldmpmas01 ~]$ kinit -kt /etc/security/keytabs/yarn-ats.hbase-master.service.keytab yarn-ats-hbase/bldmpmas01@BL.NET
+[yarn-ats@bldmpmas01 ~]$ yarn logs -applicationId application_1569318177032_0001 -appOwner yarn-ats > /tmp/application_1569318177032_0001.txt
