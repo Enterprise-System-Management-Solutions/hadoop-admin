@@ -3,3 +3,38 @@ YARN ATS log generate :
 [yarn-ats@bldmpmas01 ~]$ klist -kt /etc/security/keytabs/yarn-ats.hbase-master.service.keytab
 [yarn-ats@bldmpmas01 ~]$ kinit -kt /etc/security/keytabs/yarn-ats.hbase-master.service.keytab yarn-ats-hbase/bldmpmas01@BL.NET
 [yarn-ats@bldmpmas01 ~]$ yarn logs -applicationId application_1569318177032_0001 -appOwner yarn-ats > /tmp/application_1569318177032_0001.txt
+
+
+==============================================================================================
+
+Exception: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler in thread "org.apache.hadoop.hive.common.JvmPauseMonitor$Monitor@2a1e024f"
+Halting due to Out Of Memory Error...
+Halting due to Out Of Memory Error...
+
+for heap setting: 
+https://docs.cloudera.com/HDPDocuments/HDP2/HDP-2.1.7/bk_installing_manually_book/content/rpm-chap1-11.html
+
+limit of YARN Jobs:
+https://community.cloudera.com/t5/Support-Questions/Limit-in-number-of-Yarn-jobs/m-p/176969
+
+TCP Port:
+https://community.cloudera.com/t5/Support-Questions/yarn-nodemanager-Connect-the-hdfs-Block-pack/m-p/195301
+
+
+[yarn-ats@bldmpdat18 ~]$ yarn app -status ats-hbase | python -m json.tool | less
+[yarn-ats@bldmpdat18 ~]$ yarn app -stop ats-hbase
+[yarn-ats@bldmpdat18 ~]$ yarn app -start ats-hbase
+[root@bldmpdat18 yarn]# netstat -plant | grep CLOSE_WAIT
+[root@bldmpdat18 yarn]# su - yarn-ats
+
+need to check parameter  setting:
+ulimit -aH
+
+net.core.somaxconn
+https://df.tips/t/topic/344
+====================================================================================================
+YARN local cache clear 
+
+/data/disk01/hadoop/yarn/local/usercache/dpi_app/filecache
+find . -mtime +2 | xargs rm -Rf;
+------------------------------
