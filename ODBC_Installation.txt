@@ -1,0 +1,9 @@
+Step 1: Install the unixODBC in the system, specifically unixODBC-dev
+Step 2: Install the required Driver from Hortons – RHEL HortonworksPhoenix-64bit-1.0.8.1011-1.rpm
+Step 3: Add the following files [attached] with right credentials [Taken from CMP Team] inside /etc/ is already one file there, append or overwrite
+Step 4: Specify the certificate .pem location properly in the odbc.ini file 
+Step 5: Connect to ODBC with the right DSN and it should work
+
+Test command :
+=================
+isql -v -k 'DRIVER=/opt/hortonworks/phoenixodbc/lib/64/libphoenixodbc_sb64.so;Host=172.16.7.117;Port=8443;AuthMech=1;UID=user_name;PWD=Pass_wd;SSL=1;AllowHostNameCNMismatch=1;AllowSelfSignedServerCert=1;TrustedCerts=/etc/diagclientCA.pem;HTTPPath=gateway/cdp-proxy-api/avatica'
